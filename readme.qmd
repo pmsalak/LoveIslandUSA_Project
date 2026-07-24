@@ -1,0 +1,132 @@
+---
+title: "Final Project: Exploring Love Island USA Data"
+format: gfm
+---
+
+# Background Information & Data Preparation
+
+For my final project, I found a data set containing information on all Love Island USA contestants, aka 'islanders', from seasons 1-6. Love Island is a reality TV show where single people live in a villa in Fiji all summer while searching for love. While one group enters the villa on day 1, several more people are introduced into the mix as 'bombshells' throughout the season. In order to remain in the villa, islanders must be coupled up with a partner or they will be dumped. Each season ends with America voting for their favorite remainning couple as the winners. 
+
+Loading the packages I am going to use:
+
+```{python}
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+```
+
+My data is a csv file that I downloaded from GitHub. 
+Importing my data:
+
+```{python}
+love_island_df = pd.read_csv('C:/Users/Parri Salak/OneDrive/Documents/MSBA/Python/LoveIslandUSA.csv')
+```
+
+Cleaning column names to be in snake case:
+
+```{python}
+love_island_df.columns
+love_island_df.columns = love_island_df.columns.str.strip().str.replace(' ', '_')
+love_island_df.columns = love_island_df.columns.str.lower()
+love_island_df.columns
+```
+
+I am also going to make another dataframe that only contains information about Love Island USA winners:
+
+```{python}
+winners_df = love_island_df[love_island_df['result'] == 'Winner']
+winners_df
+```
+
+# Data Exploration
+
+Looking at the first 5 rows of data:
+
+```{python}
+love_island_df.head()
+```
+
+```{python}
+love_island_df.shape
+```
+
+The data contains 190 rows, and 18 columns. 
+
+```{python}
+love_island_df.info()
+```
+
+
+```{python}
+love_island_df.describe()
+```
+
+## Age
+
+One variable I would like to further explore is age. 
+
+```{python}
+love_island_df['age'].max()
+```
+
+```{python}
+oldest_islander = love_island_df[love_island_df['age'] == love_island_df['age'].max()]
+oldest_islander['first_name'] + ' ' + oldest_islander['last_name']
+```
+
+The oldest islander was 32 years old at the time of their appearance on Love Island. This islander was Felipe Gomes. 
+
+```{python}
+love_island_df['age'].mean()
+sns.histplot(data=love_island_df, x='age', bins=10)
+plt.show()
+```
+
+The average age of contestants on Love Island is ~25 years old. However, the data also appear to be skewed right. 
+
+```{python}
+love_island_df.groupby('season')['age'].mean()
+```
+
+Average age seems to have remained consistant across seasons, with season 3 having the highest average age and season 5 having the lowest. 
+
+```{python}
+love_island_df.groupby('sex')['age'].mean()
+```
+
+Female islanders have a slightly lower average age then male islanders. 
+
+```{python}
+winners_df['age'].mean()
+```
+
+The average age of winners does not differ from the overall average age of contestants. 
+
+## Location
+
+Another variable I would like to explore is location. This is the city that each islander is currently living in before appearing on Love Island. 
+
+```{python}
+love_island_df['location'].nunique()
+```
+
+There are 127 different locations where islanders come from. 
+
+```{python}
+love_island_df['location'].value_counts().sort_values(ascending=False)
+```
+
+The most common city for islanders to be living in is Los Angeles, California with 16 contestants. This is most likely because producers host in-person recruiting for the show in LA. 
+
+
+## Days in Villa
+
+```{python}
+
+```
+
+## Predicting Winners
+(first_group_in_villa as predictor).. one hot encoding?
+
+## Conclusion
