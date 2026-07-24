@@ -1,5 +1,5 @@
 ---
-title: "Final Project: Exploring Love Island USA Data"
+title: "Final Project: Exploring Love Island USA Data (again?)"
 format: gfm
 ---
 
