@@ -1,4 +1,4 @@
-# Final Project: Exploring Love Island USA Data (again?)
+# Final Project: Exploring Love Island USA Data
 
 
 # Background Information & Data Preparation
@@ -43,44 +43,6 @@ love_island_df.columns
            'us_region', 'birthday', 'zodiac', 'casa_amor_contestant',
            'casa_decision'],
           dtype='str')
-
-I am also going to make another dataframe that only contains information
-about Love Island USA winners:
-
-``` python
-winners_df = love_island_df[love_island_df['result'] == 'Winner']
-winners_df
-```
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-&#10;    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-&#10;    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-
-|  | season | sex | first_name | last_name | age | occupation | result | first_group_in_villa | have_they_appeared_on_a_previous_season_of_li_usa? | day_entered_villa | day_left_villa | days_in_villa | location | us_region | birthday | zodiac | casa_amor_contestant | casa_decision |
-|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|
-| 0 | 1 | Female | Elizabeth | Weber | 24 | Advertising executive | Winner | Yes | No | 1 | 27 | 26 | New York, New York | Northeast | 8-Sep-94 | Virgo | No Casa this season | No Casa this season |
-| 1 | 1 | Male | Zac | Mirabelli | 22 | Grocery store cashier | Winner | Yes | No | 1 | 27 | 26 | Chicago, Illinois | Midwest | 18-Sep-96 | Virgo | No Casa this season | No Casa this season |
-| 25 | 2 | Male | Caleb | Corpew | 24 | IT sales consultant | Winner | No | No | 5 | 40 | 35 | Oklahoma City, Oklahoma | Southwest | 11-Feb-96 | Aquarius | No | Stick |
-| 26 | 2 | Female | Justine | Ndiba | 27 | Billing coordinator / Go-go dancer | Winner | Yes | No | 1 | 40 | 39 | Rockaway, New Jersey | Northeast | 12-Mar-93 | Pisces | No | Stick |
-| 56 | 3 | Male | Korey | Gandy | 28 | Rental car agent | Winner | Yes | No | 1 | 40 | 39 | Virginia Beach, Virginia | Southeast | 23-Jul-92 | Leo | No | Switch |
-| 57 | 3 | Female | Olivia | Kaiser | 28 | Cosmetologist | Winner | Yes | No | 1 | 40 | 39 | Anchorage, Alaska | West | 12-Jul-92 | Cancer | No | Entered Casa Single |
-| 90 | 4 | Male | Timmy | Pandolfi | 29 | Realtor / Personal trainer | Winner | Yes | No | 1 | 32 | 31 | Los Angeles, California | West | 5-Jun-93 | Gemini | No | Stick |
-| 91 | 4 | Female | Zeta | Morrison | 29 | Model | Winner | Yes | No | 1 | 32 | 31 | Los Angeles, California | West | 24-May-93 | Gemini | No | Stick |
-| 124 | 5 | Female | Hannah | Wright | 24 | Teacher | Winner | No | No | 2 | 32 | 30 | Palm Springs, California | West | 7-May-99 | Taurus | No | Stick |
-| 125 | 5 | Male | Marco | Donatelli | 22 | Chiropractic student | Winner | Yes | No | 1 | 32 | 31 | Girard, Ohio | Midwest | 27-Oct-00 | Scorpio | No | Stick |
-| 157 | 6 | Male | Kordell | Beckham | 21 | Aircraft fueler / Model | Winner | Yes | No | 1 | 32 | 31 | Dallas, Texas | Southwest | 27-May-02 | Gemini | No | Switch |
-| 158 | 6 | Female | Serena | Page | 24 | Media planner | Winner | Yes | No | 1 | 32 | 31 | Houston, Texas | Southwest | 19-Sep-99 | Virgo | No | Chose to be single |
-
-</div>
 
 # Data Exploration
 
@@ -183,7 +145,9 @@ love_island_df.describe()
 
 ## Age
 
-One variable I would like to further explore is age.
+One variable I would like to further explore is age. Most islanders that
+appear on the show are in their 20s, but what is their average age? Does
+this change across different groups, such as season, gender, or result?
 
 ``` python
 love_island_df['age'].max()
@@ -208,7 +172,7 @@ sns.histplot(data=love_island_df, x='age', bins=10)
 plt.show()
 ```
 
-![](readme_files/figure-commonmark/cell-12-output-1.png)
+![](readme_files/figure-commonmark/cell-11-output-1.png)
 
 The average age of contestants on Love Island is ~25 years old. However,
 the data also appear to be skewed right.
@@ -241,10 +205,18 @@ love_island_df.groupby('sex')['age'].mean()
 Female islanders have a slightly lower average age then male islanders.
 
 ``` python
-winners_df['age'].mean()
+love_island_df.groupby('result')['age'].mean()
 ```
 
-    np.float64(25.166666666666668)
+    result
+    3rd Place    24.916667
+    4th Place    24.900000
+    Dumped       24.906250
+    Removed      24.000000
+    Runner-Up    23.500000
+    Walked       24.428571
+    Winner       25.166667
+    Name: age, dtype: float64
 
 The average age of winners does not differ from the overall average age
 of contestants.
@@ -286,6 +258,28 @@ California with 16 contestants. This is most likely because producers
 host in-person recruiting for the show in LA.
 
 ## Days in Villa
+
+As more contestants enter the villa, islanders are forced to leave. I
+want to look at the minimum, maximum, and average amount of time spent
+in the villa.
+
+``` python
+love_island_df['days_in_villa'].describe()
+```
+
+    count    190.000000
+    mean      14.073684
+    std       11.598433
+    min        2.000000
+    25%        4.000000
+    50%        9.000000
+    75%       23.750000
+    max       39.000000
+    Name: days_in_villa, dtype: float64
+
+The longest time spent in the villa was 39 days, and the shortest was
+only 2 days. The average time in the villa is around 14 days, or two
+weeks.
 
 ## Predicting Winners
 

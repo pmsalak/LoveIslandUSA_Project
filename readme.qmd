@@ -1,5 +1,5 @@
 ---
-title: "Final Project: Exploring Love Island USA Data (again?)"
+title: "Final Project: Exploring Love Island USA Data"
 format: gfm
 ---
 
@@ -32,13 +32,6 @@ love_island_df.columns = love_island_df.columns.str.lower()
 love_island_df.columns
 ```
 
-I am also going to make another dataframe that only contains information about Love Island USA winners:
-
-```{python}
-winners_df = love_island_df[love_island_df['result'] == 'Winner']
-winners_df
-```
-
 # Data Exploration
 
 Looking at the first 5 rows of data:
@@ -64,7 +57,7 @@ love_island_df.describe()
 
 ## Age
 
-One variable I would like to further explore is age. 
+One variable I would like to further explore is age. Most islanders that appear on the show are in their 20s, but what is their average age? Does this change across different groups, such as season, gender, or result?
 
 ```{python}
 love_island_df['age'].max()
@@ -98,7 +91,7 @@ love_island_df.groupby('sex')['age'].mean()
 Female islanders have a slightly lower average age then male islanders. 
 
 ```{python}
-winners_df['age'].mean()
+love_island_df.groupby('result')['age'].mean()
 ```
 
 The average age of winners does not differ from the overall average age of contestants. 
@@ -122,9 +115,13 @@ The most common city for islanders to be living in is Los Angeles, California wi
 
 ## Days in Villa
 
-```{python}
+As more contestants enter the villa, islanders are forced to leave. I want to look at the minimum, maximum, and average amount of time spent in the villa.
 
+```{python}
+love_island_df['days_in_villa'].describe()
 ```
+
+The longest time spent in the villa was 39 days, and the shortest was only 2 days. The average time in the villa is around 14 days, or two weeks. 
 
 ## Predicting Winners
 (first_group_in_villa as predictor).. one hot encoding?
