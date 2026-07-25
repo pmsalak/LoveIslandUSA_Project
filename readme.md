@@ -343,3 +343,11 @@ plt.show()
 ![](readme_files/figure-commonmark/cell-25-output-1.png)
 
 ## Conclusion
+
+For this project, I explored historical Love Island USA data to answer
+question about islander’s age, location, and time spent in the villa. To
+summerize, age remains consistant at ~25 years old across all groups.
+Most contestants come from the West coast of USA, and more specifically
+Los Angeles, CA. The average amount of time spent in the villa is two
+weeks, however those who were part of the original group of islanders
+each season were in the villa for much longer.
