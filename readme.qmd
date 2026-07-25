@@ -71,6 +71,9 @@ The average age of contestants on Love Island is ~25 years old. However, the dat
 
 ```{python}
 love_island_df['age'].mean()
+```
+
+```{python}
 sns.histplot(data=love_island_df, x='age', bins=10)
 plt.show()
 ```
@@ -79,6 +82,9 @@ Average age seems to have remained consistant across seasons, with season 3 havi
 
 ```{python}
 love_island_df.groupby('season')['age'].mean()
+```
+
+```{python}
 sns.catplot(data=love_island_df, x="season", y="age", kind='box')
 plt.show()
 ```
@@ -87,6 +93,9 @@ Female islanders have a slightly lower average age (24) then male islanders (25)
 
 ```{python}
 love_island_df.groupby('sex')['age'].mean()
+```
+
+```{python}
 sns.displot(data=love_island_df, x='age', hue='sex',kind="kde")
 plt.show()
 ```

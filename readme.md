@@ -144,33 +144,58 @@ measure of center for this distribution:
 
 ``` python
 love_island_df['age'].mean()
+```
+
+    np.float64(24.789473684210527)
+
+``` python
 sns.histplot(data=love_island_df, x='age', bins=10)
 plt.show()
 ```
 
-![](readme_files/figure-commonmark/cell-10-output-1.png)
+![](readme_files/figure-commonmark/cell-11-output-1.png)
 
 Average age seems to have remained consistant across seasons, with
 season 3 having the highest average age and season 5 having the lowest:
 
 ``` python
 love_island_df.groupby('season')['age'].mean()
+```
+
+    season
+    1    24.680000
+    2    24.677419
+    3    25.411765
+    4    24.676471
+    5    24.151515
+    6    25.090909
+    Name: age, dtype: float64
+
+``` python
 sns.catplot(data=love_island_df, x="season", y="age", kind='box')
 plt.show()
 ```
 
-![](readme_files/figure-commonmark/cell-11-output-1.png)
+![](readme_files/figure-commonmark/cell-13-output-1.png)
 
 Female islanders have a slightly lower average age (24) then male
 islanders (25):
 
 ``` python
 love_island_df.groupby('sex')['age'].mean()
+```
+
+    sex
+    Female    24.170213
+    Male      25.395833
+    Name: age, dtype: float64
+
+``` python
 sns.displot(data=love_island_df, x='age', hue='sex',kind="kde")
 plt.show()
 ```
 
-![](readme_files/figure-commonmark/cell-12-output-1.png)
+![](readme_files/figure-commonmark/cell-15-output-1.png)
 
 The average age of winners does not differ from the overall average age
 of contestants:
