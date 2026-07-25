@@ -3,7 +3,7 @@
 
 # Background Information & Data Preparation
 
-For my final project, I found a data set containing information on all
+For my final project, I found a data set containing information on past
 Love Island USA contestants, aka ‘islanders’, from seasons 1-6. Love
 Island is a reality TV show where single people live in a villa in Fiji
 all summer while searching for love. While one group enters the villa on
@@ -75,13 +75,15 @@ love_island_df.head()
 
 </div>
 
+The data contains 190 rows, and 18 columns:
+
 ``` python
 love_island_df.shape
 ```
 
     (190, 18)
 
-The data contains 190 rows, and 18 columns.
+What types of information does the data contain:
 
 ``` python
 love_island_df.info()
@@ -113,41 +115,14 @@ love_island_df.info()
     dtypes: int64(5), str(13)
     memory usage: 26.8 KB
 
-``` python
-love_island_df.describe()
-```
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-&#10;    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-&#10;    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-
-|       | season     | age        | day_entered_villa | day_left_villa | days_in_villa |
-|-------|------------|------------|-------------------|----------------|---------------|
-| count | 190.000000 | 190.000000 | 190.000000        | 190.000000     | 190.000000    |
-| mean  | 3.621053   | 24.789474  | 9.868421          | 23.942105      | 14.073684     |
-| std   | 1.659852   | 2.381119   | 8.390506          | 9.013324       | 11.598433     |
-| min   | 1.000000   | 21.000000  | 1.000000          | 4.000000       | 2.000000      |
-| 25%   | 2.000000   | 23.000000  | 1.000000          | 19.000000      | 4.000000      |
-| 50%   | 4.000000   | 24.000000  | 10.000000         | 24.000000      | 9.000000      |
-| 75%   | 5.000000   | 27.000000  | 16.750000         | 31.000000      | 23.750000     |
-| max   | 6.000000   | 32.000000  | 30.000000         | 40.000000      | 39.000000     |
-
-</div>
-
 ## Age
 
 One variable I would like to further explore is age. Most islanders that
 appear on the show are in their 20s, but what is their average age? Does
 this change across different groups, such as season, gender, or result?
+
+The oldest islander was 32 years old at the time of their appearance on
+Love Island. This islander was Felipe Gomes:
 
 ``` python
 love_island_df['age'].max()
@@ -163,8 +138,9 @@ oldest_islander['first_name'] + ' ' + oldest_islander['last_name']
     121    Felipe Gomes
     dtype: str
 
-The oldest islander was 32 years old at the time of their appearance on
-Love Island. This islander was Felipe Gomes.
+The average age of contestants on Love Island is ~25 years old. However,
+the data also appear to be skewed right so median would be a better
+measure of center for this distribution:
 
 ``` python
 love_island_df['age'].mean()
@@ -172,10 +148,10 @@ sns.histplot(data=love_island_df, x='age', bins=10)
 plt.show()
 ```
 
-![](readme_files/figure-commonmark/cell-11-output-1.png)
+![](readme_files/figure-commonmark/cell-10-output-1.png)
 
-The average age of contestants on Love Island is ~25 years old. However,
-the data also appear to be skewed right.
+Average age seems to have remained consistant across seasons, with
+season 3 having the highest average age and season 5 having the lowest:
 
 ``` python
 love_island_df.groupby('season')['age'].mean()
@@ -190,8 +166,8 @@ love_island_df.groupby('season')['age'].mean()
     6    25.090909
     Name: age, dtype: float64
 
-Average age seems to have remained consistant across seasons, with
-season 3 having the highest average age and season 5 having the lowest.
+Female islanders have a slightly lower average age (24) then male
+islanders (25):
 
 ``` python
 love_island_df.groupby('sex')['age'].mean()
@@ -202,9 +178,11 @@ love_island_df.groupby('sex')['age'].mean()
     Male      25.395833
     Name: age, dtype: float64
 
-Female islanders have a slightly lower average age then male islanders.
+The average age of winners does not differ from the overall average age
+of contestants:
 
 ``` python
+# Looking at winner as one result vs each other possible outcome
 love_island_df.groupby('result')['age'].mean()
 ```
 
@@ -218,8 +196,17 @@ love_island_df.groupby('result')['age'].mean()
     Winner       25.166667
     Name: age, dtype: float64
 
-The average age of winners does not differ from the overall average age
-of contestants.
+``` python
+# Looking at islanders being either a winner or loser
+love_island_df['is_winner'] = love_island_df['result'].apply(lambda x: True if x == 'Winner' else False)
+
+love_island_df.groupby('is_winner')['age'].mean()
+```
+
+    is_winner
+    False    24.764045
+    True     25.166667
+    Name: age, dtype: float64
 
 ## Location
 
@@ -227,13 +214,17 @@ Another variable I would like to explore is location. This is the city
 that each islander is currently living in before appearing on Love
 Island.
 
+There are 127 different locations where islanders come from:
+
 ``` python
 love_island_df['location'].nunique()
 ```
 
     127
 
-There are 127 different locations where islanders come from.
+The most common city for islanders to be living in is Los Angeles,
+California with 16 contestants. This is most likely because producers
+host in-person recruiting for the show in LA:
 
 ``` python
 love_island_df['location'].value_counts().sort_values(ascending=False)
@@ -253,15 +244,15 @@ love_island_df['location'].value_counts().sort_values(ascending=False)
     Winston-Salem, North Carolina     1
     Name: count, Length: 127, dtype: int64
 
-The most common city for islanders to be living in is Los Angeles,
-California with 16 contestants. This is most likely because producers
-host in-person recruiting for the show in LA.
-
 ## Days in Villa
 
 As more contestants enter the villa, islanders are forced to leave. I
 want to look at the minimum, maximum, and average amount of time spent
 in the villa.
+
+The longest time spent in the villa was 39 days, and the shortest was
+only 2 days. The average time in the villa is around 14 days, or two
+weeks:
 
 ``` python
 love_island_df['days_in_villa'].describe()
@@ -277,12 +268,23 @@ love_island_df['days_in_villa'].describe()
     max       39.000000
     Name: days_in_villa, dtype: float64
 
-The longest time spent in the villa was 39 days, and the shortest was
-only 2 days. The average time in the villa is around 14 days, or two
-weeks.
+How does being in the first group in the villa change this? While the
+minimum and maxium do remain fairly consistant, the average amount of
+time spent in the villa for day 1 (‘original’) islanders is much higher
+at almost 24 days:
 
-## Predicting Winners
+``` python
+love_island_df[love_island_df['first_group_in_villa'] == 'Yes']['days_in_villa'].describe()
+```
 
-(first_group_in_villa as predictor).. one hot encoding?
+    count    67.000000
+    mean     23.895522
+    std      11.439080
+    min       3.000000
+    25%      13.500000
+    50%      27.000000
+    75%      31.000000
+    max      39.000000
+    Name: days_in_villa, dtype: float64
 
 ## Conclusion
