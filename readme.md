@@ -263,6 +263,28 @@ love_island_df['location'].value_counts().sort_values(ascending=False)
     Winston-Salem, North Carolina     1
     Name: count, Length: 127, dtype: int64
 
+The data also contains a variable for the region of the United States
+that each contestant comes from:
+
+``` python
+love_island_df['us_region'].value_counts()
+```
+
+    us_region
+    West             50
+    Southeast        49
+    Northeast        33
+    Southwest        28
+    Midwest          18
+    International    12
+    Name: count, dtype: int64
+
+``` python
+sns.countplot(love_island_df, x='us_region', order=love_island_df['us_region'].value_counts().index)
+```
+
+![](readme_files/figure-commonmark/cell-21-output-1.png)
+
 ## Days in Villa
 
 As more contestants enter the villa, islanders are forced to leave. I
@@ -287,6 +309,13 @@ love_island_df['days_in_villa'].describe()
     max       39.000000
     Name: days_in_villa, dtype: float64
 
+``` python
+sns.histplot(data=love_island_df, x='days_in_villa', bins=15)
+plt.show()
+```
+
+![](readme_files/figure-commonmark/cell-23-output-1.png)
+
 How does being in the first group in the villa change this? While the
 minimum and maxium do remain fairly consistant, the average amount of
 time spent in the villa for day 1 (‘original’) islanders is much higher
@@ -305,5 +334,12 @@ love_island_df[love_island_df['first_group_in_villa'] == 'Yes']['days_in_villa']
     75%      31.000000
     max      39.000000
     Name: days_in_villa, dtype: float64
+
+``` python
+sns.catplot(love_island_df, x='days_in_villa', y='first_group_in_villa', kind='boxen')
+plt.show()
+```
+
+![](readme_files/figure-commonmark/cell-25-output-1.png)
 
 ## Conclusion

@@ -130,6 +130,16 @@ The most common city for islanders to be living in is Los Angeles, California wi
 love_island_df['location'].value_counts().sort_values(ascending=False)
 ```
 
+The data also contains a variable for the region of the United States that each contestant comes from:
+
+```{python}
+love_island_df['us_region'].value_counts()
+```
+
+```{python}
+sns.countplot(love_island_df, x='us_region', order=love_island_df['us_region'].value_counts().index)
+```
+
 ## Days in Villa
 
 As more contestants enter the villa, islanders are forced to leave. I want to look at the minimum, maximum, and average amount of time spent in the villa.
@@ -140,10 +150,21 @@ The longest time spent in the villa was 39 days, and the shortest was only 2 day
 love_island_df['days_in_villa'].describe()
 ```
 
+```{python}
+sns.histplot(data=love_island_df, x='days_in_villa', bins=15)
+plt.show()
+```
+
 How does being in the first group in the villa change this? While the minimum and maxium do remain fairly consistant, the average amount of time spent in the villa for day 1 ('original') islanders is much higher at almost 24 days:
 
 ```{python}
 love_island_df[love_island_df['first_group_in_villa'] == 'Yes']['days_in_villa'].describe()
 ```
 
+```{python}
+sns.catplot(love_island_df, x='days_in_villa', y='first_group_in_villa', kind='boxen')
+plt.show()
+```
+
 ## Conclusion
+For this project, I explored historical Love Island USA data to answer question about islander's age, location, and time spent in the villa. To summerize, age remains consistant at ~25 years old across all groups. Most contestants come from the West coast of USA, and more specifically Los Angeles, CA. The average amount of time spent in the villa is two weeks, however those who were part of the original group of islanders each season were in the villa for much longer. 
