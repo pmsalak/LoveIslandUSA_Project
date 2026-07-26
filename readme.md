@@ -155,6 +155,16 @@ plt.show()
 
 ![](readme_files/figure-commonmark/cell-11-output-1.png)
 
+The median age of islanders in 24. This is less than the mean, and is
+consistant with what I expected due to the right skew of the
+distribution:
+
+``` python
+love_island_df['age'].median()
+```
+
+    np.float64(24.0)
+
 Average age seems to have remained consistant across seasons, with
 season 3 having the highest average age and season 5 having the lowest:
 
@@ -176,7 +186,7 @@ sns.catplot(data=love_island_df, x="season", y="age", kind='box')
 plt.show()
 ```
 
-![](readme_files/figure-commonmark/cell-13-output-1.png)
+![](readme_files/figure-commonmark/cell-14-output-1.png)
 
 Female islanders have a slightly lower average age (24) then male
 islanders (25):
@@ -195,7 +205,7 @@ sns.displot(data=love_island_df, x='age', hue='sex',kind="kde")
 plt.show()
 ```
 
-![](readme_files/figure-commonmark/cell-15-output-1.png)
+![](readme_files/figure-commonmark/cell-16-output-1.png)
 
 The average age of winners does not differ from the overall average age
 of contestants:
@@ -283,7 +293,7 @@ love_island_df['us_region'].value_counts()
 sns.countplot(love_island_df, x='us_region', order=love_island_df['us_region'].value_counts().index)
 ```
 
-![](readme_files/figure-commonmark/cell-21-output-1.png)
+![](readme_files/figure-commonmark/cell-22-output-1.png)
 
 ## Days in Villa
 
@@ -310,11 +320,11 @@ love_island_df['days_in_villa'].describe()
     Name: days_in_villa, dtype: float64
 
 ``` python
-sns.histplot(data=love_island_df, x='days_in_villa', bins=15)
+sns.histplot(data=love_island_df, x='days_in_villa', bins=10)
 plt.show()
 ```
 
-![](readme_files/figure-commonmark/cell-23-output-1.png)
+![](readme_files/figure-commonmark/cell-24-output-1.png)
 
 How does being in the first group in the villa change this? While the
 minimum and maxium do remain fairly consistant, the average amount of
@@ -340,14 +350,15 @@ sns.catplot(love_island_df, x='days_in_villa', y='first_group_in_villa', kind='b
 plt.show()
 ```
 
-![](readme_files/figure-commonmark/cell-25-output-1.png)
+![](readme_files/figure-commonmark/cell-26-output-1.png)
 
 ## Conclusion
 
 For this project, I explored historical Love Island USA data to answer
 question about islander’s age, location, and time spent in the villa. To
-summerize, age remains consistant at ~25 years old across all groups.
-Most contestants come from the West coast of USA, and more specifically
-Los Angeles, CA. The average amount of time spent in the villa is two
-weeks, however those who were part of the original group of islanders
-each season were in the villa for much longer.
+summerize, although the average age of female contestants is slightly
+younger than male, age remains consistant at ~25 years old across
+seasons and results. Most contestants come from the West coast of USA,
+and more specifically Los Angeles, CA. The average amount of time spent
+in the villa is two weeks, however those who were part of the original
+group of islanders each season were in the villa for much longer.

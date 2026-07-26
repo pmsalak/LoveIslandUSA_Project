@@ -78,6 +78,11 @@ sns.histplot(data=love_island_df, x='age', bins=10)
 plt.show()
 ```
 
+The median age of islanders in 24. This is less than the mean, and is consistant with what I expected due to the right skew of the distribution:
+```{python}
+love_island_df['age'].median()
+```
+
 Average age seems to have remained consistant across seasons, with season 3 having the highest average age and season 5 having the lowest:
 
 ```{python}
@@ -151,7 +156,7 @@ love_island_df['days_in_villa'].describe()
 ```
 
 ```{python}
-sns.histplot(data=love_island_df, x='days_in_villa', bins=15)
+sns.histplot(data=love_island_df, x='days_in_villa', bins=10)
 plt.show()
 ```
 
@@ -168,4 +173,4 @@ plt.show()
 
 ## Conclusion
 
-For this project, I explored historical Love Island USA data to answer question about islander's age, location, and time spent in the villa. To summerize, age remains consistant at ~25 years old across all groups. Most contestants come from the West coast of USA, and more specifically Los Angeles, CA. The average amount of time spent in the villa is two weeks, however those who were part of the original group of islanders each season were in the villa for much longer.  
+For this project, I explored historical Love Island USA data to answer question about islander's age, location, and time spent in the villa. To summerize, although the average age of female contestants is slightly younger than male, age remains consistant at ~25 years old across seasons and results. Most contestants come from the West coast of USA, and more specifically Los Angeles, CA. The average amount of time spent in the villa is two weeks, however those who were part of the original group of islanders each season were in the villa for much longer.  
