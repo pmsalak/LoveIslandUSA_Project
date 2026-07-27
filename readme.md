@@ -83,7 +83,7 @@ love_island_df.shape
 
     (190, 18)
 
-What types of information does the data contain:
+What types of information does the data contain?:
 
 ``` python
 love_island_df.info()
@@ -241,7 +241,8 @@ love_island_df.groupby('is_winner')['age'].mean()
 
 Another variable I would like to explore is location. This is the city
 that each islander is currently living in before appearing on Love
-Island.
+Island. How many different locations do contestants come from? What is
+the most common city and region where islanders are from?
 
 There are 127 different locations where islanders come from:
 
@@ -297,9 +298,11 @@ sns.countplot(love_island_df, x='us_region', order=love_island_df['us_region'].v
 
 ## Days in Villa
 
-As more contestants enter the villa, islanders are forced to leave. I
-want to look at the minimum, maximum, and average amount of time spent
-in the villa.
+As more contestants enter the villa as ‘bombshells’, islanders are
+dumped forced to leave. I want to look at the minimum, maximum, and
+average amount of time spent in the villa. How does this amount of time
+differ for islanders who are part of the original group compared to the
+bombsells who join throughout the season?
 
 The longest time spent in the villa was 39 days, and the shortest was
 only 2 days. The average time in the villa is around 14 days, or two
@@ -345,6 +348,9 @@ love_island_df[love_island_df['first_group_in_villa'] == 'Yes']['days_in_villa']
     max      39.000000
     Name: days_in_villa, dtype: float64
 
+Compared to orginal islanders, bombshells appear to spend much less time
+in the villa:
+
 ``` python
 sns.catplot(love_island_df, x='days_in_villa', y='first_group_in_villa', kind='boxen')
 plt.show()
@@ -356,9 +362,10 @@ plt.show()
 
 For this project, I explored historical Love Island USA data to answer
 question about islander’s age, location, and time spent in the villa. To
-summerize, although the average age of female contestants is slightly
+summarize, although the average age of female contestants is slightly
 younger than male, age remains consistant at ~25 years old across
 seasons and results. Most contestants come from the West coast of USA,
-and more specifically Los Angeles, CA. The average amount of time spent
-in the villa is two weeks, however those who were part of the original
-group of islanders each season were in the villa for much longer.
+and the most common city is Los Angeles, CA. The average amount of time
+spent in the villa is about two weeks, however those who were part of
+the original group of islanders each season were in the villa for much
+longer than the bombshells.
