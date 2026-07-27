@@ -166,7 +166,8 @@ love_island_df['age'].median()
     np.float64(24.0)
 
 Average age seems to have remained consistant across seasons, with
-season 3 having the highest average age and season 5 having the lowest:
+season 3 having the highest average age and season 5 having the lowest.
+Season 4 appears to have the largest age range:
 
 ``` python
 love_island_df.groupby('season')['age'].mean()
@@ -275,7 +276,7 @@ love_island_df['location'].value_counts().sort_values(ascending=False)
     Name: count, Length: 127, dtype: int64
 
 The data also contains a variable for the region of the United States
-that each contestant comes from:
+that each contestant comes from. The most common region is the West:
 
 ``` python
 love_island_df['us_region'].value_counts()
@@ -352,6 +353,7 @@ Compared to orginal islanders, bombshells appear to spend much less time
 in the villa:
 
 ``` python
+# Boxen plot displays distribution in quantiles
 sns.catplot(love_island_df, x='days_in_villa', y='first_group_in_villa', kind='boxen')
 plt.show()
 ```
